@@ -1,0 +1,28 @@
+{
+  "name": "ai-personality-explorer-tencent-scf",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev:web": "vite",
+    "dev:api": ".venv\\Scripts\\python.exe -X utf8 -m backend",
+    "build": "vite build",
+    "preview:full": "npm run build && .venv\\Scripts\\python.exe -X utf8 -m backend --static",
+    "test:python": ".venv\\Scripts\\python.exe -X utf8 -m pytest",
+    "typecheck": "tsc --noEmit",
+    "test:node": "node --test",
+    "test:browser": "node ./tests/browser/run-playwright.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^18.19.130",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.21"
+  },
+  "dependencies": {
+    "@langchain/core": "1.2.20",
+    "@langchain/langgraph": "1.5.2",
+    "zod": "4.6.7"
+  }
+}

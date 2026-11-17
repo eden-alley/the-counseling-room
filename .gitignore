@@ -1,0 +1,30 @@
+# 本机依赖与构建
+node_modules/
+.venv/
+dist/
+__pycache__/
+.pytest_cache/
+playwright-report/
+test-results/
+
+# 本机临时验证与工作记录
+.pytest-tmp*/
+.test-tmp*/
+.codex-status-test-tmp/
+.superpowers/
+
+# 进程配置、凭据和个人会话数据
+.env
+.env.*
+*.clixml
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.sqlite3.lock
+*.sqlite.lock
+*.db
+*.db-*
+
+# 部署产物与运行日志
+*.zip
+*.log

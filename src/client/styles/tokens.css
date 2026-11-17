@@ -1,0 +1,17 @@
+    @import url("/assets/fonts/lxgw-wenkai/lxgwwenkai-regular.css");
+    @font-face{font-family:"Zhi Mang Xing";src:url("/assets/fonts/zhi-mang-xing/ZhiMangXing-Regular.ttf") format("truetype");font-display:swap}
+    :root{
+      --bg:#f8f5ef;
+      --surface:#fffdf8;
+      --surface-2:#f1eee6;
+      --text:#20241f;
+      --muted:#73766f;
+      --soft:#9ca398;
+      --accent:#315c48;
+      --accent-2:#486f5b;
+      --accent-soft:#e4ece3;
+      --line:#e5dfd2;
+      --danger:#a64f45;
+      --shadow:0 20px 60px rgba(42,52,42,.10);
+      --consultation-dynamic-font:"LXGW WenKai","STKaiti","KaiTi","Songti SC",serif;
+    }

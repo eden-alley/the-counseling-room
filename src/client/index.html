@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>人格探索助手</title>
+  <link rel="stylesheet" href="/styles/tokens.css">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/room.css">
+  <link rel="stylesheet" href="/styles/consultation.css">
+  <link rel="stylesheet" href="/styles/history.css">
+  <link rel="stylesheet" href="/styles/report.css">
+</head>
+<body>
+  <section id="landingScreen" class="screen artwork-entry-screen">
+    <div id="artworkEntry" class="artwork-entry" data-entry-state="ready">
+      <img id="entryArtwork" class="artwork-entry-media artwork-entry-image" src="assets/counseling-entry-poster.png" alt="咨询室入口" draggable="false">
+      <video id="entryIntroVideo" class="artwork-entry-media artwork-entry-video" src="assets/counseling-entry.mp4" poster="assets/counseling-entry-poster.png" preload="auto" playsinline></video>
+      <button id="entryDoorHotspot" class="entry-door-hotspot" type="button" aria-label="打开门">打开门</button>
+      <div class="entry-coordinate-layer">
+        <button id="consultationChairHotspot" class="consultation-chair-hotspot" type="button" aria-label="开始咨询">
+          <span class="consultation-chair-label">开始咨询</span>
+        </button>
+        <svg class="consultation-chair-outline" viewBox="0 0 1112 834" aria-hidden="true">
+          <defs>
+            <filter id="consultationChairOutlineFilter" x="-10%" y="-10%" width="120%" height="120%">
+              <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="expanded"/>
+              <feComposite in="expanded" in2="SourceAlpha" operator="out" result="outline"/>
+              <feFlood flood-color="#f0c78d" flood-opacity="0.72" result="outlineColor"/>
+              <feComposite in="outlineColor" in2="outline" operator="in"/>
+            </filter>
+          </defs>
+          <image href="assets/consultation-chair-mask.png" width="1112" height="834" filter="url(#consultationChairOutlineFilter)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen stage" id="welcomeScreen" hidden>
+    <div class="stage-inner">
+      <button class="ghost" type="button" data-back>返回上一步</button>
+      <div class="stage-head">
+        <div class="eyebrow">欢迎回来</div>
+        <h2>今天想从哪里开始？</h2>
+        <p>选择一个入口只是为了让开场更自然，你随时可以改变方向。</p>
+      </div>
+      <div class="entry-grid">
+        <button class="entry-card" type="button" data-entry="self_understanding" data-label="我想理解自己">
+          <span class="tag">1</span>
+          <h3>我想理解自己</h3>
+          <p>适合聊反复出现的思考习惯、选择方式和内在冲突。</p>
+        </button>
+        <button class="entry-card" type="button" data-entry="recent_difficulty" data-label="我最近遇到一些困难">
+          <span class="tag">2</span>
+          <h3>我最近遇到一些困难</h3>
+          <p>适合从一个具体事件开始，先把现实问题听清楚。</p>
+        </button>
+        <button class="entry-card" type="button" data-entry="free_conversation" data-label="自由聊聊">
+          <span class="tag">3</span>
+          <h3>自由聊聊</h3>
+          <p>如果你还没想清楚，也可以从最近脑子里反复出现的念头开始。</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="roomScreen" class="screen room-entry-screen" data-scene-state="room" hidden>
+    <div id="roomStaticScene" class="room-scene-layer room-static-scene" aria-hidden="true">
+      <img src="assets/counseling-room-no-mailbox-no-books-no-picture.png" alt="">
+    </div>
+    <div class="room-scene-layer room-poster-layer" aria-hidden="true">
+      <img src="assets/counseling-entry-poster.png" alt="">
+    </div>
+      <video id="roomIntroVideo" class="room-intro-video" src="assets/counseling-entry.mp4" poster="assets/counseling-entry-poster.png" preload="auto" playsinline muted></video>
+    <div class="room-transition-veil" aria-hidden="true"></div>
+    <div class="room-coordinate-layer" aria-hidden="false">
+      <button id="mailboxHotspot" class="mailbox-hotspot" type="button" aria-label="查看信箱"></button>
+      <span class="mailbox-shadow" aria-hidden="true"></span>
+      <img class="mailbox-artwork" src="assets/mailbox.png" alt="">
+      <button id="bookHotspot" class="room-object-hotspot book-hotspot" type="button" aria-label="查看桌上的书"></button>
+      <span class="room-object-shadow book-shadow" aria-hidden="true"></span>
+      <img class="room-object-artwork book-artwork" src="assets/book.png" alt="">
+      <button id="wallArtHotspot" class="room-object-hotspot wall-art-hotspot" type="button" aria-label="查看墙上的画"></button>
+      <span class="room-object-shadow wall-art-shadow" aria-hidden="true"></span>
+      <img class="room-object-artwork wall-art-artwork" src="assets/wall-art.png" alt="">
+    </div>
+    <div id="roomArtworkModal" class="room-artwork-modal" data-room-modal-state="closed" data-room-modal-kind="" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="room-modal-canvas">
+        <img class="room-modal-artwork mailbox-modal-artwork" src="assets/mailbox-letters-ui.png" alt="你的来信">
+        <img class="room-modal-artwork wall-art-modal-artwork" src="assets/wall-art-reflection-ui.png" alt="湖面繁星画作">
+        <div class="mailbox-letter-interface" aria-label="你的来信">
+          <button class="mailbox-letter-entry" type="button" aria-selected="true">第一封信</button>
+          <article class="mailbox-letter-paper" aria-labelledby="pioneerLetterTitle">
+            <h2 id="pioneerLetterTitle" class="mailbox-letter-title">性格不是命运，而是起点</h2>
+            <p>我们常常很擅长回答：</p>
+            <p class="mailbox-letter-question">“我是什么样的人？”</p>
+            <p>却很少有机会认真追问：</p>
+            <p class="mailbox-letter-question">“我为什么会成为现在的我？”</p>
+            <p>这或许正是性格学最迷人的地方。</p>
+            <p>性格并不是几个简单的标签。我们今天习惯怎样思考、如何表达情绪、如何与人靠近，又如何在受伤时保护自己，都来自天性、经历和一次次选择的共同塑造。</p>
+            <p>有些被我们视为缺点的部分，或许曾在某段岁月里保护过我们。</p>
+            <p>敏感，让我们更容易受伤，也让我们能够察觉别人未曾留意的情绪；理性，让我们显得疏离，也让我们在混乱中保持清醒；独立，让我们习惯一个人承担，却也可能使我们忘记如何接受别人的靠近。</p>
+            <p>每一种性格，都同时携带着天赋与阴影。</p>
+            <p>当我们不了解自己时，性格会像一只无形的手，推动我们重复熟悉的反应：在相似的关系中受伤，在同样的选择前犹豫，又在事情结束后问自己：</p>
+            <p class="mailbox-letter-question">“为什么我总是这样？”</p>
+            <p>而性格学真正的意义，不是替我们贴上一个标签，也不是提前规定我们会成为怎样的人。</p>
+            <p>它帮助我们看见，那些一直影响着我们的内在规律。</p>
+            <p>看见，是改变的开始。</p>
+            <p>性格成熟，也不是消灭自己的缺点，更不是把自己改造成另一种人。真正的成熟，是逐渐理解自己的倾向，却不再被它们支配；接纳自己的天性，同时拥有选择不同回应的能力。</p>
+            <p>敏感的人可以学会建立边界，而不必失去温柔。</p>
+            <p>理性的人可以学会拥抱情感，而不必放弃清醒。</p>
+            <p>独立的人可以学会相信关系，而不必舍弃自己的力量。</p>
+            <p>每一种性格，都拥有一条属于自己的成熟之路。</p>
+            <p>没有哪一种性格天生更加优秀，也没有谁注定困在过去的自己里。性格决定了我们从哪里出发，却不能决定我们最终会走到哪里。</p>
+            <p>当我们开始理解自己，曾经的困惑会慢慢成为线索，曾经的弱点也可能重新成为力量。</p>
+            <p>愿我们最终都能成为性格真正成熟的人：</p>
+            <p>看见自己，理解自己，驾驭自己，也有勇气不断超越自己。</p>
+            <p class="mailbox-letter-signature">The Keeper of Your Inner Space</p>
+          </article>
+        </div>
+        <button id="roomModalCloseButton" class="room-modal-close" type="button" aria-label="关闭画面"></button>
+      </div>
+    </div>
+    <div id="consultationUiLayer" class="consultation-ui-layer" data-active-section="explore" aria-hidden="true">
+      <div class="consultation-ui-canvas">
+        <img class="consultation-ui-artwork consultation-explore-artwork" src="assets/personality-exploration-consultation-ui.png" alt="">
+        <img class="consultation-ui-artwork consultation-sections-artwork" src="assets/personality-exploration-sections-ui.png" alt="">
+        <nav class="consultation-nav" aria-label="人格探索功能">
+          <button class="consultation-nav-button consultation-nav-history" type="button" data-consultation-section="consultation-history" aria-selected="false">历史咨询记录</button>
+          <button class="consultation-nav-button consultation-nav-report" type="button" data-consultation-section="report-history" aria-selected="false">历史报告</button>
+          <button class="consultation-nav-button consultation-nav-explore" type="button" data-consultation-section="explore" aria-selected="true">开始探索</button>
+          <button class="consultation-nav-button consultation-nav-profile" type="button" data-consultation-section="profile" aria-selected="false">用户档案</button>
+        </nav>
+        <span class="consultation-home-mask" aria-hidden="true"></span>
+        <div class="consultation-content">
+          <section class="consultation-panel" data-consultation-panel="consultation-history" aria-label="历史咨询记录" aria-hidden="true"></section>
+          <section class="consultation-panel" data-consultation-panel="report-history" aria-label="历史报告" aria-hidden="true"></section>
+          <section class="consultation-panel consultation-explore-panel is-active" data-consultation-panel="explore" aria-label="开始探索" aria-hidden="false">
+            <div class="consultation-chat-wrap" id="chatWrap">
+              <div class="consultation-chat-stream" id="chat" aria-live="polite"></div>
+            </div>
+            <div class="consultation-composer">
+              <textarea id="input" rows="1" aria-label="咨询内容"></textarea>
+              <button class="consultation-send" id="send" type="button" aria-label="发送">➤</button>
+            </div>
+          </section>
+          <section class="consultation-panel" data-consultation-panel="profile" aria-label="用户档案" aria-hidden="true"></section>
+        </div>
+        <button id="consultationEndButton" class="consultation-end-button" type="button" aria-label="结束本次咨询"></button>
+        <div id="consultationEndModal" class="consultation-end-modal" data-modal-state="closed" role="dialog" aria-modal="true" aria-hidden="true" aria-label="结束本次咨询">
+          <div class="consultation-end-modal-frame">
+            <img class="consultation-end-modal-artwork" src="assets/consultation-end-modal.png" alt="结束本次咨询">
+            <button id="consultationEndModalCloseButton" class="consultation-end-modal-hit-area consultation-end-modal-hit-close" type="button" aria-label="关闭结束咨询窗口"></button>
+            <button id="consultationEndContinueButton" class="consultation-end-modal-hit-area consultation-end-modal-hit-continue" type="button" aria-label="继续咨询"></button>
+            <button id="consultationEndReportButton" class="consultation-end-modal-hit-area consultation-end-modal-hit-report" type="button" aria-label="保存并生成报告"></button>
+          </div>
+        </div>
+        <div id="consultationExitModal" class="consultation-exit-modal" data-modal-state="closed" role="dialog" aria-modal="true" aria-hidden="true" aria-label="是否保存咨询记录">
+          <img class="consultation-exit-artwork" src="assets/consultation-save-confirmation-ui.png" alt="是否保存咨询记录">
+          <button id="consultationExitDiscardButton" class="consultation-exit-choice consultation-exit-discard" type="button" aria-label="不保存并返回主页"></button>
+          <button id="consultationExitSaveButton" class="consultation-exit-choice consultation-exit-save" type="button" aria-label="保存咨询记录并返回主页"></button>
+        </div>
+        <button id="consultationUiCloseButton" class="consultation-ui-close" type="button" aria-label="关闭咨询界面"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+    <div id="consultationUiBlackout" class="consultation-ui-blackout" aria-hidden="true"></div>
+    <p class="room-loading-note" role="status">房间正在准备</p>
+    <button id="startConsultationBtn" class="room-start-hotspot" type="button" aria-label="开始咨询">开始今天的咨询</button>
+  </section>
+
+  <section class="screen app consultation-desk" id="chatScreen" hidden>
+    <div class="consulting-room-background" aria-hidden="true">
+      <div class="room-window"></div><div class="room-plant"></div><div class="room-chair"></div><div class="room-table"></div><div class="room-cabinet"></div>
+    </div>
+    <header class="app-header">
+      <div class="shell">
+        <div>
+          <div class="brand"><div class="mark">八</div><span>林澈 · 八维取向咨询伙伴</span></div>
+          <div class="session-meta">
+            <span id="entryMeta">入口：未选择</span>
+            <span id="durationMeta">00:00</span>
+            <span id="countMeta">0 轮对话</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <button class="secondary" id="endSessionBtn" type="button">结束本次咨询</button>
+          <button class="ghost" id="historyBtn" type="button">历史</button>
+          <button class="ghost" id="newSessionBtn" type="button">新会谈</button>
+        </div>
+      </div>
+    </header>
+    <main class="chat-wrap" id="legacyChatWrap">
+      <div class="chat-stream" id="legacyChat"></div>
+    </main>
+    <footer class="composer">
+      <div class="composer-box">
+        <div class="input-row">
+          <textarea id="legacyInput" rows="1"></textarea>
+          <button class="send" id="legacySend" aria-label="发送">↑</button>
+        </div>
+        <div class="composer-meta">
+          <span>Enter 发送，Shift + Enter 换行</span>
+          <span>仅用于自我探索，不替代心理咨询、诊断或医疗建议</span>
+        </div>
+      </div>
+    </footer>
+  </section>
+
+  <section class="screen" id="summaryScreen" hidden>
+    <div class="summary-layout">
+      <div class="page-top">
+        <div>
+          <div class="eyebrow">本次总结</div>
+          <h2>本次咨询记录</h2>
+        </div>
+        <div class="nav-actions">
+          <button class="ghost" id="summaryBackBtn" type="button">回到对话</button>
+          <button class="secondary" id="summaryHistoryBtn" type="button">查看历史</button>
+        </div>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-output" id="reportOutput">
+          <p class="loading">点击右侧按钮后，会先检查是否需要补充关键信息，再生成总结。</p>
+        </div>
+        <aside class="side-panel">
+          <h3>结束前确认</h3>
+          <p class="muted" style="margin-top:8px">总结会保存到本机的咨询历史。你也可以继续对话，不必现在结束。</p>
+          <div id="reportQuestionArea" class="report-question" hidden>
+            <p class="muted" id="reportProgress"></p>
+            <p id="reportQuestion" style="margin-top:8px"></p>
+            <textarea id="reportAnswer" placeholder="输入补充信息……"></textarea>
+            <div class="report-actions">
+              <button class="ghost" id="reportSkip" type="button">跳过</button>
+              <button class="primary" id="reportNext" type="button">继续</button>
+            </div>
+          </div>
+          <div class="error" id="reportError"></div>
+          <div class="report-actions">
+            <button class="primary" id="generateSummaryBtn" type="button">生成总结</button>
+            <button class="ghost" id="downloadSummaryBtn" type="button" hidden>导出总结</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="historyScreen" hidden>
+    <div class="history-layout">
+      <div class="page-top">
+        <div>
+          <div class="eyebrow">咨询历史</div>
+          <h2>本设备的咨询记录</h2>
+          <p class="muted">这些记录保存在这台设备上，暂不支持跨设备同步。</p>
+        </div>
+        <div class="nav-actions">
+          <button class="secondary" id="historyNewBtn" type="button">开始新会谈</button>
+          <button class="ghost" id="historyHomeBtn" type="button">返回上一步</button>
+        </div>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </section>
+
+  <button id="ambientMusicToggle" class="ambient-music-toggle" type="button" data-music-state="off" aria-pressed="false" aria-label="开启背景音乐" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path class="music-note" d="M9 17.2V6.8l8-1.8v9.9M9 17.2c0 1.1-1.2 2-2.7 2s-2.7-.9-2.7-2 1.2-2 2.7-2 2.7.9 2.7 2Zm8-2.3c0 1.1-1.2 2-2.7 2s-2.7-.9-2.7-2 1.2-2 2.7-2 2.7.9 2.7 2Z"/>
+      <path class="music-waves" d="M19.2 8.1c1.1 1 1.1 2.8 0 3.8M21 6.2c2.1 2.1 2.1 5.5 0 7.6"/>
+      <path class="music-slash" d="M4.5 4.5 19.5 19.5"/>
+    </svg>
+  </button>
+  <audio id="ambientMusicAudio" src="assets/consultation-room-ambience.mp4" loop preload="metadata"></audio>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

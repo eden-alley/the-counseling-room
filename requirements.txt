@@ -1,0 +1,9 @@
+# Python 3.12.14验证；包含本地测试依赖。完整可复现版本见requirements-lock.txt。
+langgraph==1.2.16
+fastapi==0.159.1
+uvicorn==0.54.0
+httpx==0.28.1
+pydantic==2.14.1
+pytest==9.1.1
+pytest-asyncio==1.4.0
+openai-codex==0.163.0
